@@ -1,4 +1,4 @@
-# Fast Semantic Segmentation
+# Fast Semantic Image Segmentation Using Multi-Task Deep Neural Networks (CNN-I2I)
 
 ## Prerequisits for training
 1. PyTorch (torch and torchvision)
