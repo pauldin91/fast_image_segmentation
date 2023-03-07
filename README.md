@@ -1,39 +1,41 @@
-# Fast Semantic Image Segmentation Using Multi-Task Deep Neural Networks (CNN-I2I)
-
+# Fast Semantic Image Segmentation Using Multi-Task Deep Neural Networks (CNN-I2I
+)
 ## Prerequisits for training
 1. PyTorch (torch and torchvision)
-* 'pip install torch torchvision'
+* `pip install torch torchvision`
 2. Easydict
-* 'pip install easydict'
+* `pip install easydict`
 3. tqdm
-* 'pip install tqdm'
+* `pip install tqdm`
 4. Ninja
-* 'pip install ninja'
+* `pip install ninja`
 5. OpenCV
-* 'pip install opencv-python'
+* `pip install opencv-python`
 6. Scipy
-* 'pip install scipy'
+* `pip install scipy`
 7. Pandas
-* 'pip install pandas'
+* `pip install pandas`
 
 ## Setup Crowd dataset
 The dataset used for the crowd detetction is provided in the [link]().
 
 The dataset used for the training and evaluation of the models must have the following structure:
-'''
+```
 .
 +-- RGB
 |   +-- train
+|       +-- subdirs
 |   +-- val
-|   +-- test
+|       +-- subdirs
 +-- annotations
 |   +-- train
+|       +-- subdirs
 |   +-- val
-|   +-- test
+|       +-- subdirs
 +-- test.txt
 +-- train.txt
 +-- val.txt
-'''
+```
 Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script '[configure_dataset_annotations.py]()' is provided to create the segmentation ground truth or the RGB segmentation mask.
 To create the test, train and val txt files use the script '[create_trainvaltest_files.py]()'. 
 
