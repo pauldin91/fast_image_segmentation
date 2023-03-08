@@ -1,6 +1,6 @@
 # Fast Semantic Image Segmentation Using Multi-Task Deep Neural Networks (CNN-I2I)
 
-## Prerequisits for training
+## Prerequisits
 1. PyTorch (torch and torchvision)
 * `pip install torch torchvision`
 2. Easydict
@@ -14,7 +14,7 @@
 6. Pandas
 * `pip install pandas`
 
-## Setup Crowd dataset
+## Prepare dataset fot crowd segmentation
 The dataset used for the crowd detetction is provided in the [link](https://aiia.csd.auth.gr/open-multidrone-datasets/) under the name `DroneCrowd`.
 
 The dataset used for the training and evaluation of the models must have the following structure:
@@ -34,13 +34,13 @@ The dataset used for the training and evaluation of the models must have the fol
 +-- train.txt
 +-- val.txt
 ```
-Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) is provided to create the segmentation ground truth or the RGB segmentation mask.
+Each subfolder of the `annotations` folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) is provided to create the segmentation ground truth or the RGB segmentation mask.
 To create the test, train and val txt files use the script [`create_trainvaltest_files.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/create_trainvaltest_files.py).
 
 (Crowd: create the dataset folder and run the scripts: [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) and [`create_trainvaltest_files.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/create_trainvaltest_files.py))
 
 ## Training for Crowd segmentation
-1. download the pre-trained model [ResNet18]() and save it inside a folder (train from scratch is possible however accuracy will decrease).
+1. download the pre-trained model [ResNet18](https://drive.google.com/file/d/19xf-d76FFiJfCm6a9QtZrc0xLsw8GMDG/view?usp=sharing) and save it inside a folder (train from scratch is possible however accuracy will decrease).
 2. inside the [`config.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/model/crowd_detection/config.py) change the repo name (according to the folder name in which the project is saved), the paths corresponding to the location of the dataset and the resnet18 and optionally provide the desired setteings for the hyperparameters, batch size and image configuartion.
 3. train a network using the [`train_i2i_crowd.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/model/crowd_detection/train_i2i_crowd.py).
 
@@ -62,7 +62,7 @@ In order to train the network on a custom dataset first a dataset folder must be
 ### Training
 For the training of the network on a custom dataset follow these steps.
 
-1. download the pre-trained model [ResNet18]() and save it inside a folder (train from scratch is possible however accuracy will decrease).
+1. download the pre-trained model [ResNet18](https://drive.google.com/file/d/19xf-d76FFiJfCm6a9QtZrc0xLsw8GMDG/view?usp=sharing) and save it inside a folder (train from scratch is possible however accuracy will decrease).
 2. inside the folder [`./furnace/datasets/`](https://github.com/AIIALaboratory/fast_image_segmentation/tree/main/CNN-I2I/furnace/datasets) change according to the new custom dataset the [`__init__.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/furnace/datasets/__init__.py) file and create a new folder of the custom dataset with two files [`__init__.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/furnace/datasets/crowd/__init__.py) and `custom_dataset.py` (example file from the crowd dataset [`crowd.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/furnace/datasets/crowd/crowd.py)
 3. inside the folder [`./furnace/seg_opr/`](https://github.com/AIIALaboratory/fast_image_segmentation/tree/main/CNN-I2I/furnace/seg_opr) change accordingly the file [`loss_opr.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/furnace/seg_opr/loss_opr.py) for the custom dataset and set the new weights of the classes (depending on the number of pixels that belong in each class) inside the class `ProbOhemCrossEntropy2d`. 
 4. create a new folder inside the [`./model/`](https://github.com/AIIALaboratory/fast_image_segmentation/tree/main/CNN-I2I/model/) for the training, evaluation, network, dataloader and configuration files. RECOMMENDED (normally the network and dataloader files should be the same)
