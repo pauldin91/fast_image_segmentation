@@ -7,17 +7,15 @@
 * `pip install easydict`
 3. tqdm
 * `pip install tqdm`
-4. Ninja
-* `pip install ninja`
-5. OpenCV
+4. OpenCV
 * `pip install opencv-python`
-6. Scipy
+5. Scipy
 * `pip install scipy`
-7. Pandas
+6. Pandas
 * `pip install pandas`
 
 ## Setup Crowd dataset
-The dataset used for the crowd detetction is provided in the [link](https://aiia.csd.auth.gr/open-multidrone-datasets/).
+The dataset used for the crowd detetction is provided in the [link](https://aiia.csd.auth.gr/open-multidrone-datasets/) under the name `DroneCrowd`.
 
 The dataset used for the training and evaluation of the models must have the following structure:
 ```
