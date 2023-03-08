@@ -36,27 +36,27 @@ The dataset used for the training and evaluation of the models must have the fol
 +-- train.txt
 +-- val.txt
 ```
-Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script `[configure_dataset_annotations.py]()` is provided to create the segmentation ground truth or the RGB segmentation mask.
-To create the test, train and val txt files use the script `[create_trainvaltest_files.py]()`. 
+Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script [`configure_dataset_annotations.py`]() is provided to create the segmentation ground truth or the RGB segmentation mask.
+To create the test, train and val txt files use the script [`create_trainvaltest_files.py`]().
 
-(Crowd: create the dataset folder and run the scripts: `[configure_dataset_annotations.py.py]()` and `[create_trainvaltest_files.py]()`)
+(Crowd: create the dataset folder and run the scripts: [`configure_dataset_annotations.py`]() and [`create_trainvaltest_files.py`]())
 
 ## Training for Crowd segmentation
 1. download the pre-trained model [ResNet18]() and save it inside a folder (train from scratch is possible however accuracy will decrease).
-2. inside the `[config.py]()` change the repo name (according to the folder name in which the project is saved), the paths corresponding to the location of the dataset and the resnet18 and optionally provide the desired setteings for the hyperparameters, batch size and image configuartion.
-3. train a network using the `[train_i2i_crowd.py]()`.
+2. inside the [`config.py`]() change the repo name (according to the folder name in which the project is saved), the paths corresponding to the location of the dataset and the resnet18 and optionally provide the desired setteings for the hyperparameters, batch size and image configuartion.
+3. train a network using the [`train_i2i_crowd.py`]().
 
 ## Evaluation for Crowd segmentation
 In case the training phase is skipped the following steps must be followed:
 1. create the directory `./CNN-I2I/log/crowd_detection/snapshot` and inside place the pretrained model epoch-XX.pth (the pretrained model provided has an accuracy of 82%)
-2. provide the provide the dataset path in the `[config.py]()`
+2. provide the provide the dataset path in the [`config.py`]()
 
 The following steps must be followed independently of the model used (pre-trained/trained)
-1. in argument parser of the file `[eval_i2i_crowd.py]()` define:
+1. in argument parser of the file [`eval_i2i_crowd.py`]() define:
 * the model indice (single number or range of numbers), corresponding to an epoch, that will be evaluated (line 119).
 * the save path for the predicted segmentation masks (line 124) (optional, default None).
 * (Optional) by setting True or False (default) the show_image parameter each image and the corresponding segmentation mask is shown.
-2. evaluate the model using the `[eval_i2i_crowd.py]()`.
+2. evaluate the model using the [`eval_i2i_crowd.py`]().
 
 ## Custom detection
 In order to train the network on a custom dataset first a dataset folder must be created with the same structure presented earlier and then run the `[configure_dataset_annotations.py.py]()` to create th RGB segmentation masks and the `[create_trainvaltest_files.py]()` to create the configuration files `test.txt`, `train.txt` and `val.txt`.
