@@ -34,10 +34,10 @@ The dataset used for the training and evaluation of the models must have the fol
 +-- train.txt
 +-- val.txt
 ```
-Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script [`configure_dataset_annotations.py`]() is provided to create the segmentation ground truth or the RGB segmentation mask.
-To create the test, train and val txt files use the script [`create_trainvaltest_files.py`]().
+Each subfolder of the [annotations]() folder contains a segmentation ground truth and an RGB segmentation mask of each image. (WARNING: the RGB segmentation mask must have non-zero values on all three channels in order to train the model efficiently.) A script [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) is provided to create the segmentation ground truth or the RGB segmentation mask.
+To create the test, train and val txt files use the script [`create_trainvaltest_files.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/create_trainvaltest_files.py).
 
-(Crowd: create the dataset folder and run the scripts: [`configure_dataset_annotations.py`]() and [`create_trainvaltest_files.py`]())
+(Crowd: create the dataset folder and run the scripts: [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) and [`create_trainvaltest_files.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/create_trainvaltest_files.py))
 
 ## Training for Crowd segmentation
 1. download the pre-trained model [ResNet18]() and save it inside a folder (train from scratch is possible however accuracy will decrease).
@@ -57,7 +57,7 @@ The following steps must be followed independently of the model used (pre-traine
 2. evaluate the model using the [`eval_i2i_crowd.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/model/crowd_detection/eval_i2i_crowd.py).
 
 ## Custom detection
-In order to train the network on a custom dataset first a dataset folder must be created with the same structure presented earlier and then run the [`configure_dataset_annotations.py`]() to create th RGB segmentation masks and the [`create_trainvaltest_files.py`]() to create the configuration files `test.txt`, `train.txt` and `val.txt`.
+In order to train the network on a custom dataset first a dataset folder must be created with the same structure presented earlier and then run the [`configure_dataset_annotations.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/configure_dataset_annotations.py) to create th RGB segmentation masks and the [`create_trainvaltest_files.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/scripts/create_trainvaltest_files.py) to create the configuration files `test.txt`, `train.txt` and `val.txt`.
 
 ### Training
 For the training of the network on a custom dataset follow these steps.
