@@ -1,5 +1,7 @@
 # Fast Semantic Image Segmentation Using Multi-Task Deep Neural Networks (CNN-I2I)
 
+This is an official pytorch implementation of [Autonomous UAV Safety by Visual Human Crowd Detection Using Multi-Task Deep Neural Networks](https://ieeexplore.ieee.org/abstract/document/9560830). This implementation can be also easily adapted for any binary/multi-class image segmentation task (see instructions below).
+
 ## Prerequisits
 1. PyTorch (torch and torchvision)
 * `pip install torch torchvision`
@@ -87,3 +89,25 @@ For the evaluation of a model on a custom dataset follow these steps.
 * (Optional) by setting True or False (default) the show_image parameter each image and the corresponding segmentation mask is shown
 2. in case the name of the new [`config.py`](https://github.com/AIIALaboratory/fast_image_segmentation/blob/main/CNN-I2I/model/crowd_detection/config.py) is different, inside the file `eval_i2i_custom.py` use the name of the new created config file
 3. evaluate the model.
+
+## Citation
+If you use opur code or models in your research, please cite with:
+```
+@inproceedings{papaioannidis2021autonomous,
+  title={Autonomous UAV safety by visual human crowd detection using multi-task deep neural networks},
+  author={Papaioannidis, Christos and Mademlis, Ioannis and Pitas, Ioannis},
+  booktitle={2021 IEEE International Conference on Robotics and Automation (ICRA)},
+  pages={11074--11080},
+  year={2021},
+  organization={IEEE}
+}
+
+@inproceedings{papaioannidis2022fast,
+  title={Fast Semantic Image Segmentation for Autonomous Systems},
+  author={Papaioannidis, Christos and Mademlis, Ioannis and Pitas, Ioannis},
+  booktitle={2022 IEEE International Conference on Image Processing (ICIP)},
+  pages={2646--2650},
+  year={2022},
+  organization={IEEE}
+}
+```
