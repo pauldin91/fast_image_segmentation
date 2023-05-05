@@ -91,7 +91,7 @@ For the evaluation of a model on a custom dataset follow these steps.
 3. evaluate the model.
 
 ## Citation
-If you use opur code or models in your research, please cite with:
+If you use our code or models in your research, please cite with:
 ```
 @inproceedings{papaioannidis2021autonomous,
   title={Autonomous UAV safety by visual human crowd detection using multi-task deep neural networks},
