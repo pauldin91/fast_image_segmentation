@@ -12,9 +12,9 @@ import torch.backends.cudnn as cudnn
 from torchvision.utils import save_image
 
 from config import config
-from dataloader import get_train_loader_Smoke
-from network import BiSeNet_smoke
-from datasets.smoke import Smoke as IDataset
+from dataloader import get_train_loader_Flame
+from network import BiSeNet_fire
+from datasets.fire import Flame as IDataset
 from utils.init_func import init_weight, group_weight
 from engine.lr_policy import PolyLR
 from engine.engine import Engine
@@ -35,7 +35,7 @@ with Engine(custom_parser=parser) as engine:
         torch.cuda.manual_seed(seed)
 
     # data loader
-    train_loader, train_sampler = get_train_loader_Smoke(engine, IDataset)
+    train_loader, train_sampler = get_train_loader_Flame(engine, IDataset)
 
     # config network and criterion
     criterion = nn.CrossEntropyLoss(reduction='mean',
@@ -53,7 +53,7 @@ with Engine(custom_parser=parser) as engine:
 
     BatchNorm2d = torch.nn.BatchNorm2d
 
-    model = BiSeNet_smoke(config.num_classes, is_training=True,
+    model = BiSeNet_fire(config.num_classes, is_training=True,
                     criterion=criterion,
                     ohem_criterion=ohem_criterion,
                     pretrained_model=config.pretrained_model,

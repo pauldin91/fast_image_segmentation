@@ -7,7 +7,7 @@ from config import config
 from utils.img_utils import random_scale, random_scale_i2i, random_mirror_i2i, random_mirror, normalize, \
     generate_random_crop_pos, random_crop_pad_to_shape
 
-class TrainPre_smoke(object):
+class TrainPre_fire(object):
     def __init__(self, img_mean, img_std):
         self.img_mean = img_mean
         self.img_std = img_std
@@ -70,12 +70,12 @@ class TrainPre_smoke(object):
 
         return p_img, p_gt, p_i2i_gt, extra_dict
 
-def get_train_loader_Smoke(engine, dataset):
+def get_train_loader_Flame(engine, dataset):
     data_setting = {'img_root': config.img_root_folder,
                     'gt_root': config.gt_root_folder,
                     'train_source': config.train_source,
                     'eval_source': config.eval_source}
-    train_preprocess = TrainPre_smoke(config.image_mean, config.image_std)
+    train_preprocess = TrainPre_fire(config.image_mean, config.image_std)
 
     train_dataset = dataset(data_setting, "train", train_preprocess,
                             config.batch_size * config.niters_per_epoch)

@@ -58,7 +58,7 @@ class ProbOhemCrossEntropy2d(nn.Module):
             #    [1.4297, 1.4805, 1.4363, 3.365, 2.6635, 1.4311, 2.1943, 1.4817,
             #     1.4513, 2.1984, 1.5295, 1.6892, 3.2224, 1.4727, 7.5978, 9.4117,
             #     15.2588, 5.6818, 2.2067])
-            weight = torch.FloatTensor([1.42222778, 50.49834979])
+            weight = torch.FloatTensor([0.5034,74.5384])
             #weight = torch.FloatTensor([2.5541530078841768, 2.2462742271374707])
             self.criterion = torch.nn.CrossEntropyLoss(reduction=reduction,
                                                        weight=weight,

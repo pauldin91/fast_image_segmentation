@@ -1,3 +1,4 @@
-from .crowd import Crowd
+from .fire import Flame
+from .smoke import Smoke
 
-__all__ = ['Crowd']
+__all__ = ['Flame','Smoke']

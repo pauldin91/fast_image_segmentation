@@ -30,7 +30,8 @@ class BiSeNet_smoke(nn.Module):
 
         self.spatial_path = SpatialPath(3, 128, norm_layer)
 
-        self.i2i_path = define_G(input_nc=512, output_nc=3, ngf=64, netG='resnet_4blocks', norm='batch', use_dropout=True, init_type='normal', init_gain=0.02, gpu_ids=[0])
+        self.i2i_path = define_G(input_nc=512, output_nc=3, ngf=64, netG='resnet_4blocks', norm='batch',
+                                 use_dropout=True, init_type='normal', init_gain=0.02, gpu_ids=[0])
 
         i2i_arms = [AttentionRefinement(256, 128, norm_layer),
                     AttentionRefinement(128, 128, norm_layer)]
@@ -88,7 +89,7 @@ class BiSeNet_smoke(nn.Module):
             self.criterion = criterion
             self.ohem_criterion = ohem_criterion
 
-            self.netD = define_D(input_nc=6, ndf=32, netD='basic', n_layers_D=2, norm='batch', init_type='normal', init_gain=0.02, gpu_ids=[0])
+            self.netD = define_D(input_nc=9, ndf=32, netD='basic', n_layers_D=2, norm='batch', init_type='normal', init_gain=0.02, gpu_ids=[0])
             self.device = torch.device(config.gpu_number if torch.cuda.is_available() else "cpu")
             self.criterionGAN = GANLoss(gan_mode='vanilla', target_real_label=1.0, target_fake_label=0.0).to(self.device)
             self.criterionL1 = torch.nn.L1Loss()

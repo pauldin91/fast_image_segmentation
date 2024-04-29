@@ -246,8 +246,7 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--verbose', default=False, action='store_true')
     parser.add_argument('--show_image', '-s', default=False,
                         action='store_true')
-    #parser.add_argument('--save_path', '-p', default=None)
-    parser.add_argument('--save_path', '-p', default='/home/pdinopoulos/Evaluations/I2I/Fire')
+    parser.add_argument('--save_path', '-p', default=None)
     parser.add_argument('--input_size', type=str, default='1x3x360x640',
                         help='Input size. '
                              'channels x height x width (default: 1x3x224x224)')

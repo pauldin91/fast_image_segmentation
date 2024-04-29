@@ -15,8 +15,8 @@ from engine.evaluator import Evaluator
 from engine.logger import get_logger
 from seg_opr.metric import hist_info, compute_score
 from tools.benchmark import compute_speed, stat
-from datasets.smoke import Smoke as IDataset
-from network import BiSeNet_smoke
+from datasets.fire import Flame as IDataset
+from network import BiSeNet_fire
 
 
 logger = get_logger()
@@ -29,16 +29,6 @@ import math
 
 def find_distance(p1, p2):
     return np.sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
-
-
-def similarity(x, y):
-    v = np.dot(x, y) / (norm(x) * norm(y))
-    return v
-
-
-def fire_angle(b):
-    return np.arctan((b[0] + b[3]) * 1.0 / (b[1] + b[2] + 1e-8)) * 180 / np.pi
-
 
 def maximum_filter(n, img):
     # Creates the shape of the kernel
@@ -66,22 +56,6 @@ def distances(centers):
 
 import cv2
 
-def cosine_similarity(mask,pred):
-    mask = np.sort(mask,axis=0)
-    pred = np.sort(pred,axis=0)
-    if mask.shape[1] > 1:
-        mm = np.concatenate(mask).ravel()
-    else:
-        mask.ravel()
-    if pred.shape[1] > 1:
-        pp = np.concatenate(pred).ravel()
-    else:
-        pp=pred.ravel()
-    mlength = max(len(mm),len(pp))
-    mm = np.pad(mm,((0, mlength - mm.shape[0])), mode='constant')
-    pp = np.pad(pp,((0, mlength - pp.shape[0])), mode='constant')
-    v = np.dot(mm,pp)/(norm(mm)*norm(pp))
-    return v
 
 def extract_metrics(mat):
     mat = np.asarray(mat,dtype='uint8')
@@ -100,14 +74,17 @@ def extract_metrics(mat):
     blur = maximum_filter(17, mat)
 
     number_of_fires, _ = cv2.findContours(blur, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
-    deviation = np.std(distances(centers))
+    vv = distances(centers)
+    deviation = np.std(vv)
     if len(centers)<=1:
         deviation = 0.0
+        vv = [0.0001]
 
     areas = np.zeros(len(number_of_fires))
     for j, c in enumerate(number_of_fires):
         area = cv2.contourArea(c)
         areas[j] = area
+
 
     if len(number_of_fires)==0:
         areas = np.asarray([0.0])
@@ -120,8 +97,8 @@ def normalize(a,b):
     return np.abs(a-b)
 
 def normalize_percent(a,b):
-    if(max(norm(a),norm(b)))!=0.0:
-        return min(norm(a),norm(b))*1.0/max(norm(a),norm(b))
+    if(norm(b))!=0.0:
+        return min(norm(a),norm(b))*1.0/(norm(b)+0.01)
     return 0.0
 
 class SegEvaluator(Evaluator):
@@ -129,7 +106,7 @@ class SegEvaluator(Evaluator):
         img = data['data']
         label = data['label']
         name = data['fn']
-
+        labelCopy = label.copy()
         self.im_size = img.shape
 
         if (self.im_size[1] >= config.image_width) or (self.im_size[0] >= config.image_height):
@@ -159,8 +136,10 @@ class SegEvaluator(Evaluator):
                                (config.image_height // config.gt_down_sampling,
                                 config.image_width // config.gt_down_sampling),
                                device=device)
-        d_pred = cv2.resize(pred.copy(),(config.image_height,config.image_width),interpolation=cv2.INTER_NEAREST)
-        d_label = cv2.resize(label.copy(),(config.image_height,config.image_width),interpolation=cv2.INTER_NEAREST)
+
+
+        d_pred = cv2.resize(pred.copy(),(config.image_width,config.image_height),interpolation=cv2.INTER_NEAREST)
+        d_label = cv2.resize(labelCopy,(config.image_width,config.image_height),interpolation=cv2.INTER_NEAREST)
         p, q, r, l = extract_metrics(d_pred)
         m, n, o, k = extract_metrics(d_label)
 
@@ -168,8 +147,8 @@ class SegEvaluator(Evaluator):
 
         area_k_mean = k.mean()
 
-        area = normalize(area_l_mean, area_k_mean)
-        deviation = normalize(r, o)
+        area = normalize(area_l_mean, area_k_mean)/norm(area_k_mean+0.01)
+        deviation = normalize(r, o)/config.image_width
         no_fires = np.abs(q - n)
         area_norm = normalize_percent(area_l_mean, area_k_mean)
         deviation_norm = normalize_percent(r, o)
@@ -246,8 +225,7 @@ if __name__ == "__main__":
     parser.add_argument('-v', '--verbose', default=False, action='store_true')
     parser.add_argument('--show_image', '-s', default=False,
                         action='store_true')
-    #parser.add_argument('--save_path', '-p', default=None)
-    parser.add_argument('--save_path', '-p', default='/home/pdinopoulos/Evaluations/I2I/Fire')
+    parser.add_argument('--save_path', '-p', default=None)
     parser.add_argument('--input_size', type=str, default='1x3x360x640',
                         help='Input size. '
                              'channels x height x width (default: 1x3x224x224)')

@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.checkpoint import checkpoint
 
-
+from base_config.base_config import base_config
 from config import config
 from base_model import resnet18
 from seg_opr.seg_oprs import ConvBnRelu, AttentionRefinement, FeatureFusion
@@ -15,11 +15,11 @@ from pix2pix_networks import define_G, define_D, GANLoss
 def get():
     return BiSeNet(config.num_classes, None, None)
 
-class BiSeNet_smoke(nn.Module):
+class BiSeNet_fire(nn.Module):
     def __init__(self, out_planes, is_training,
                  criterion, ohem_criterion, pretrained_model=None,
                  norm_layer=nn.BatchNorm2d):
-        super(BiSeNet_smoke, self).__init__()
+        super(BiSeNet_fire, self).__init__()
         self.context_path = resnet18(pretrained_model, norm_layer=norm_layer,
                                      bn_eps=config.bn_eps,
                                      bn_momentum=config.bn_momentum,
@@ -28,7 +28,11 @@ class BiSeNet_smoke(nn.Module):
         self.business_layer = []
         self.is_training = is_training
 
-        self.spatial_path = SpatialPath(3, 128, norm_layer)
+        if config.channels=='rgb':
+            channels = 3
+        else:
+            channels = 6
+        self.spatial_path = SpatialPath(channels, 128, norm_layer)
 
         self.i2i_path = define_G(input_nc=512, output_nc=3, ngf=64, netG='resnet_4blocks', norm='batch', use_dropout=True, init_type='normal', init_gain=0.02, gpu_ids=[0])
 
